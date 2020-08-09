@@ -1,0 +1,85 @@
+﻿@model YugensysAssignment.Models.fruitdetailModel
+@{
+    ViewBag.Title = "Yugensys";
+}
+<style>
+    .box1 {
+        margin-bottom: 10px;
+        text-align: justify;
+    }
+</style>
+@using (Html.BeginForm("SaveDetail", "Home",FormMethod.Post,new { @id = "form1"}))
+{
+    @Html.AntiForgeryToken()
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="box1">
+                <label>Enter your info</label>
+            </div>
+            <div class="box1">
+                <label>Choose best answer</label>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="box1">
+                <input type="text" name="sProperty" id="sProperty" value="" />
+            </div>
+            <div class="box1" id="dropdowndiv" >
+                @{Html.RenderPartial("_dropdownData", Model.selectList);}
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="box1">
+                <p style="color:red" id="alertMessage1" hidden>Please input value in the textbox</p>
+            </div>
+            <br>
+            <div class="box1">
+                <p style="color:red" id="alertMessage2" hidden>Please Select value in a dropdown</p>
+            </div>
+        </div>
+        
+    </div>
+    <br>
+    <br>
+    <input type="submit" value="Submit" onclick = "return validateForm();">
+}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#sProperty").focusout(function () {
+            var sProperty = $("#sProperty").val();
+            $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("_dropdownData", "Home")',
+                    data: { sProperty: sProperty },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (result) {
+                        $("#dropdowndiv").empty();
+                        $("#dropdowndiv").html(result);
+                    }
+                })
+        });
+    });
+
+    function validateForm() {
+        var val1 = $('#ddlfruits  option:selected').val();
+       if ($('#sProperty').val() == '') {
+           $("#alertMessage1").show();
+        return false;
+       }
+        if (val1 == "") {
+         $("#alertMessage1").hide();
+         $("#alertMessage2").show();
+        return false;
+        }
+        else {
+        $("#alertMessage1").hide();
+        $("#alertMessage2").hide();
+        form1.submit();
+        }
+    }
+</script>

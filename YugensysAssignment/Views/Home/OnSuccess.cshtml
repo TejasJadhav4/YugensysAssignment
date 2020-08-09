@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Success";
+}
+<h1>
+    The details has been saved successfully.
+</h1>
+<br>
+<p>You most recent save-</p>
+<br />
+<p style="color:blue">Enter your info: @ViewBag.sProperty</p>
+<p style="color:blue">Choose best answer: @ViewBag.fruitName</p>
+<br />
+<br />
+<button onclick="Redirect()">Click here to Save More Details</button>
+
+<script>
+    function Redirect() {
+            window.open('@Url.Action("Index", "Home")', '_self');
+    }
+</script>

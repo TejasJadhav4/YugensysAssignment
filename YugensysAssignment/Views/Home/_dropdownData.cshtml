@@ -1,0 +1,8 @@
+﻿@model List<SelectListItem>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+@Html.DropDownList("fruitId", Model, "Please select", new { @id = "ddlfruits", style = "width: 181px;" })
